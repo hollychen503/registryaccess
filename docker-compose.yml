@@ -1,0 +1,44 @@
+version: '3.1'
+
+services: 
+  
+  traefik:
+    image: traefik:v1.6
+    restart: always
+    ports:  
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - $PWD/mygit.toml:/etc/traefik/traefik.toml
+#    networks:
+#      - registry
+
+#/opt/emqttd/etc
+
+  mygit.dhms.net:
+    image: registry:2
+    restart: always
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm"
+      - REGISTRY_AUTH_HTPASSWD_PATH="/auth/htpasswd"
+      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/fullchain1.pem
+      - REGISTRY_HTTP_TLS_KEY=/certs/privkey1.pem
+
+    #ports:
+    #  - 5000:5000
+    volumes:
+      - $PWD/auth:/auth
+      - /etc/letsencrypt/archive/mygit.dhms.net:/certs:ro
+      - /registrydata:/var/lib/registry
+
+  regaccess:
+    image: hollychen503/regaccess:latest
+    restart: always
+    volumes:
+      - $PWD/auth:/auth
+    
+
+#networks:
+#  registry
