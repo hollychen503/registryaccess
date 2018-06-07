@@ -1,3 +1,8 @@
+# Notes:
+- only work for mygit.dhms.net domain name.
+- change docker-compose.yml and mygit.toml to use new domain name
+
+
 # run
 
 ```
