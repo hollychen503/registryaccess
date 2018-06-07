@@ -31,7 +31,7 @@ services:
     volumes:
       - $PWD/auth:/auth
       - /etc/letsencrypt/archive/mygit.dhms.net:/certs:ro
-      - /registrydata:/var/lib/registry
+      - $PWD/registrydata:/var/lib/registry
 
   regaccess:
     image: hollychen503/regaccess:latest
