@@ -1,0 +1,61 @@
+defaultEntryPoints = ["http", "https"]
+
+logLevel = "INFO"
+
+# Sample entrypoint configuration when using ACME.
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.http.redirect]
+    entryPoint = "https"
+  
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+      [[entryPoints.https.tls.certificates]]
+      certFile = "/certs/live/registry.dhms.net/fullchain.pem"
+      keyFile = "/certs/live/registry.dhms.net/privkey.pem"
+
+
+  #[entryPoints.https.tls]
+    [entryPoints.https.auth.forward]
+      address = "http://regaccess:10080"
+      trustForwardHeader = true
+
+[api]
+entryPoint = "http"
+dashboard = true
+
+
+
+[file]
+
+  [frontends]
+    [frontends.frontend1]
+    backend = "backend1"
+    passHostHeader = true
+#    passTLSCert = true
+#    entryPoints = "https"
+      [frontends.frontend1.routes.test_1]
+      #  拿掉 原来 url 中的 mywhoami 部分，并forward 到 backer1 server1
+      rule = "Host:registry.dhms.net"
+
+  [backends]
+    [backends.backend1]
+      [backends.backend1.servers.server1]
+      url = "https://registry.dhms.net:5000"
+
+
+[acme]
+email = "holly@dhms.com.cn"
+storage = "acme.json"
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+entryPoint = "https"
+  [acme.httpChallenge]
+  entryPoint = "http"
+
+[[acme.domains]]
+  main = "registry.dhms.net"
+  #sans = ["mygit.dhms.net", "myreg.dhms.net"]
+
+
