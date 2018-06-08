@@ -1,6 +1,6 @@
 # Notes:
 - only test on ubuntu 16.04
-- change docker-compose.yml and mygit.toml to use new domain name
+- change docker-compose.yml and registry.toml to use new domain name
 
 
 # run
