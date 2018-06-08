@@ -1,12 +1,12 @@
 # Notes:
-- only work for mygit.dhms.net domain name.
+- only test on ubuntu 16.04
 - change docker-compose.yml and mygit.toml to use new domain name
 
 
 # run
 
 ```
-docker-compose up
+docker-compose up 
 ```
 
 # add user
